@@ -1,4 +1,4 @@
-# Spring-Security-Study
+# Spring-Jwt-Study
 
 ## Chapter1
 - [간단한 동작 원리](https://www.youtube.com/watch?v=NPRh2v7PTZg&list=PLJkjrxxiBSFCcOjy0AAVGNtIa08VLk1EJ)<br>

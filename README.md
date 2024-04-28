@@ -1,4 +1,4 @@
-# Spring-Security-Study
+# Spring-Jwt-Study
 
 ## Chapter5
 - [DB연결 및 Entity 작성](https://www.youtube.com/watch?v=JFTpzy7gsg0&list=PLJkjrxxiBSFCcOjy0AAVGNtIa08VLk1EJ&index=5)<br>

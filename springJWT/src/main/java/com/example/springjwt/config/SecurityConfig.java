@@ -3,6 +3,7 @@ package com.example.springjwt.config;
 import com.example.springjwt.jwt.JWTFilter;
 import com.example.springjwt.jwt.JWTUtil;
 import com.example.springjwt.jwt.LoginFilter;
+import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
 @EnableWebSecurity
@@ -40,6 +42,29 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+        /**
+         * cors 설정.
+         * 보통 서버는 8080포트, 프론트엔드는 3000포트를 이용함.
+         * 브라우저는 교차 출처 리소스 공유를 금지하기 때문에 데이터가 보이지 않음.
+         * 따라서 별도의 cors 설정을 해주어 토큰을 허용해준다.
+         */
+        http
+                .cors((cors) -> cors
+                        .configurationSource(request -> {
+
+                            CorsConfiguration configuration = new CorsConfiguration();
+
+                            configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+                            configuration.setAllowedMethods(Collections.singletonList("*"));
+                            configuration.setAllowCredentials(true);
+                            configuration.setAllowedHeaders(Collections.singletonList("*"));
+                            configuration.setMaxAge(3600L);
+
+                            configuration.setExposedHeaders(Collections.singletonList("Authorization"));
+
+                            return configuration;
+                        }));
 
         //csrf disable
         /**

@@ -1,5 +1,6 @@
 package com.example.springjwt.config;
 
+import com.example.springjwt.jwt.JWTUtil;
 import com.example.springjwt.jwt.LoginFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final AuthenticationConfiguration authenticationConfiguration;
+    private final JWTUtil jwtUtil;
 
     // BCrypt Password Encoder 객체를 생성하여 반환하는 Bean 생성
     @Bean
@@ -66,9 +68,12 @@ public class SecurityConfig {
         /**
          * UsernamePasswordAuthenticationFilter 클래스에 우리가 커스텀한 LoginFilter 추가
          * LoginFilter는 AuthenticationManager를 인자로 갖는다.
+         *
+         * Chapter10에서 LoginFilter클래스에 JWTUtil 인스턴스를 파라미터로 받도록 했다.
+         * 따라서 의존성 주입을 해주도록 한다.
          */
         http
-                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration)),
+                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil),
                         UsernamePasswordAuthenticationFilter.class);
 
         /**

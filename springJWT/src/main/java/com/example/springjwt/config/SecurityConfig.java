@@ -1,8 +1,10 @@
 package com.example.springjwt.config;
 
+import com.example.springjwt.jwt.CustomLogoutFilter;
 import com.example.springjwt.jwt.JWTFilter;
 import com.example.springjwt.jwt.JWTUtil;
 import com.example.springjwt.jwt.LoginFilter;
+import com.example.springjwt.repository.RefreshRepository;
 import com.example.springjwt.util.CookieMethods;
 import com.example.springjwt.util.RefreshEntityMethods;
 import java.util.Collections;
@@ -17,6 +19,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
@@ -28,6 +31,7 @@ public class SecurityConfig {
     private final JWTUtil jwtUtil;
     private final CookieMethods cookieMethods;
     private final RefreshEntityMethods refreshEntityMethods;
+    private final RefreshRepository refreshRepository;
 
     // BCrypt Password Encoder 객체를 생성하여 반환하는 Bean 생성
     @Bean
@@ -116,6 +120,12 @@ public class SecurityConfig {
                         new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, cookieMethods,
                                 refreshEntityMethods),
                         UsernamePasswordAuthenticationFilter.class);
+
+        /**
+         * SpringSecurity의 LogoutFilter가 작동하기 전에 RefreshToken을 제거하는 필터를 추가하는 것
+         */
+        http
+                .addFilterBefore(new CustomLogoutFilter(jwtUtil, refreshRepository), LogoutFilter.class);
 
         /**
          * session을 stateless한 상태로 관리하기 위해 해당 설정을 해준다.

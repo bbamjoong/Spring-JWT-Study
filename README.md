@@ -45,3 +45,38 @@
 ## Chapter13
 [CORS 설정](https://github.com/bbamjoong/Spring-JWT-Study/tree/Chapter13)
 <br>
+<br>
+<br>
+
+## Advanced-Chapter2
+- [보안을 위한 JWT 진화](https://www.youtube.com/watch?v=Q4c0n83S1xs&list=PLJkjrxxiBSFATow4HY2qr5wLvXM6Rg-BM&index=3&ab_channel=%EA%B0%9C%EB%B0%9C%EC%9E%90%EC%9C%A0%EB%AF%B8)<br>
+- [노션](https://substantial-park-a17.notion.site/2-JWT-32ffba324eef49c58660d5e9e7ee689f)
+
+## Advanced-Chapter4
+[다중 (Refresh/Access) 토큰 발급](https://github.com/bbamjoong/Spring-JWT-Study/tree/Advanced-Chapter4)
+<br>
+
+## Advanced-Chapter5
+[Access 토큰 필터 (JWTFilter)](https://github.com/bbamjoong/Spring-JWT-Study/tree/Advanced-Chapter5)
+<br>
+
+## Advanced-Chapter6
+[Refresh로 Access 재발급 (reissue)](https://github.com/bbamjoong/Spring-JWT-Study/tree/Advanced-Chapter6)
+<br>
+
+## Advanced-Chapter7
+[Refresh Rotate](https://github.com/bbamjoong/Spring-JWT-Study/tree/Advanced-Chapter7)
+<br>
+
+## Advanced-Chapter8
+[Refresh 토큰 서버측 저장](https://github.com/bbamjoong/Spring-JWT-Study/tree/Advanced-Chapter8)
+<br>
+
+## Advanced-Chapter9
+[로그아웃](https://github.com/bbamjoong/Spring-JWT-Study/tree/Advanced-Chapter9)
+<br>
+
+## Advanced-Chapter10
+- [추가적 보안 구상](https://www.youtube.com/watch?v=Y__6n73AlJk&list=PLJkjrxxiBSFATow4HY2qr5wLvXM6Rg-BM&index=10&ab_channel=%EA%B0%9C%EB%B0%9C%EC%9E%90%EC%9C%A0%EB%AF%B8)<br>
+- [노션](https://substantial-park-a17.notion.site/10-da8e4b86e73942d1b351250552aef69f)
+<br>

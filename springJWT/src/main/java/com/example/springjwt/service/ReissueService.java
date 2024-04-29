@@ -5,6 +5,8 @@ import static com.example.springjwt.enums.ReissueMessage.REFRESH_INVALID;
 import static com.example.springjwt.enums.ReissueMessage.REFRESH_NULL;
 
 import com.example.springjwt.jwt.JWTUtil;
+import com.example.springjwt.repository.RefreshRepository;
+import com.example.springjwt.util.RefreshEntityMethods;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,6 +19,8 @@ import org.springframework.stereotype.Service;
 public class ReissueService {
 
     private final JWTUtil jwtUtil;
+    private final RefreshRepository refreshRepository;
+    private final RefreshEntityMethods refreshEntityMethods;
 
     public String findRefreshToken(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
@@ -64,5 +68,17 @@ public class ReissueService {
         String role = jwtUtil.getRole(refresh);
 
         return jwtUtil.createJwt("refresh", username, role, 86_400_000L);
+    }
+
+    // RefreshToken이 존재하는지 확인
+    public Boolean checkRefresh(String refresh) {
+        return refreshRepository.existsByRefresh(refresh);
+    }
+
+    public void rotateRefresh(String newRefresh, String refresh) {
+        String username = jwtUtil.getUsername(newRefresh);
+
+        refreshRepository.deleteByRefresh(refresh); // 기존의 RefreshToken 제거
+        refreshEntityMethods.addRefreshEntity(username, newRefresh, 86_400_000L); // 새로운 RefreshToken 추가
     }
 }

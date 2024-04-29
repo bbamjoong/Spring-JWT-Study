@@ -27,7 +27,6 @@ public class ReissueController {
     public ResponseEntity<?> reissue(HttpServletRequest request, HttpServletResponse response) {
 
         String refresh = reissueService.reissueToken(request);
-
         if (refresh.equals(REFRESH_NULL.getMessage())) {
             return new ResponseEntity<>(REFRESH_NULL.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -38,11 +37,20 @@ public class ReissueController {
             return new ResponseEntity<>(REFRESH_INVALID.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
-        String newAccess = reissueService.getNewAccess(refresh);
-        response.setHeader("access", newAccess);
+        // DB에 RefreshToken이 존재하는지 확인 -> LoginFilter에서 이미 저장을 했을 것이기 때문이다.
+        Boolean isExist = reissueService.checkRefresh(refresh);
+        if (!isExist) {
+            return new ResponseEntity<>(REFRESH_INVALID, HttpStatus.BAD_REQUEST);
+        }
 
+        String newAccess = reissueService.getNewAccess(refresh);
         // 새로운 RefreshToken 발급
         String newRefresh = reissueService.getNewRefresh(refresh);
+
+        // DB에 저장되어있던 RefreshToken을 삭제하고 새로운 RefreshToken을 추가한다.
+        reissueService.rotateRefresh(newRefresh, refresh);
+
+        response.setHeader("access", newAccess);
         response.addCookie(cookieMethods.createCookie("refresh", newRefresh));
 
         return new ResponseEntity<>(HttpStatus.OK);

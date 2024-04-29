@@ -1,6 +1,7 @@
 package com.example.springjwt.jwt;
 
 import com.example.springjwt.util.CookieMethods;
+import com.example.springjwt.util.RefreshEntityMethods;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -27,10 +28,9 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
      * 의존성을 주입해준다.
      */
     private final AuthenticationManager authenticationManager;
-
     private final JWTUtil jwtUtil;
-
     private final CookieMethods cookieMethods;
+    private final RefreshEntityMethods refreshEntityMethods;
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
@@ -65,6 +65,9 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         //토큰 생성
         String access = jwtUtil.createJwt("access", username, role, 600_000L);
         String refresh = jwtUtil.createJwt("refresh", username, role, 86_400_000L);
+
+        // Refresh 토큰 저장
+        refreshEntityMethods.addRefreshEntity(username, refresh, 86_400_000L);
 
         //응답 설정
         response.setHeader("access", access);

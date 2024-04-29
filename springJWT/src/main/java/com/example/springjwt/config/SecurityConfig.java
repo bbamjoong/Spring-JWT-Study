@@ -89,6 +89,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/login", "/", "/join").permitAll()
                         .requestMatchers("/admin").hasRole("ADMIN")
+                        // access 토큰이 만료된 상태로 접근하기 때문에 로그인이 불가능한 상태이므로 permitAll
+                        .requestMatchers("/reissue").permitAll()
                         .anyRequest().authenticated());
 
         /**

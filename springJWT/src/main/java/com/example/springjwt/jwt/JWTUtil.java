@@ -36,6 +36,13 @@ public class JWTUtil {
                 .get("role", String.class);
     }
 
+    // Category 값 얻기
+    public String getCategory(String token) {
+
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload()
+                .get("category", String.class);
+    }
+
     // 만료 되었는지?
     public Boolean isExpired(String token) {
 
@@ -45,9 +52,10 @@ public class JWTUtil {
     }
 
     // 토큰 발급
-    public String createJwt(String username, String role, Long expiredMs) {
+    public String createJwt(String category, String username, String role, Long expiredMs) {
 
         return Jwts.builder()
+                .claim("category", category) // access, refresh 판단
                 .claim("username", username)
                 .claim("role", role)
                 .issuedAt(new Date(System.currentTimeMillis()))

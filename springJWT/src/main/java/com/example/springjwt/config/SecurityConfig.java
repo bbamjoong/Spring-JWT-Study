@@ -3,6 +3,7 @@ package com.example.springjwt.config;
 import com.example.springjwt.jwt.JWTFilter;
 import com.example.springjwt.jwt.JWTUtil;
 import com.example.springjwt.jwt.LoginFilter;
+import com.example.springjwt.util.CookieMethods;
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +25,7 @@ public class SecurityConfig {
 
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JWTUtil jwtUtil;
+    private final CookieMethods cookieMethods;
 
     // BCrypt Password Encoder 객체를 생성하여 반환하는 Bean 생성
     @Bean
@@ -108,7 +110,8 @@ public class SecurityConfig {
          * 따라서 의존성 주입을 해주도록 한다.
          */
         http
-                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil),
+                .addFilterAt(
+                        new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, cookieMethods),
                         UsernamePasswordAuthenticationFilter.class);
 
         /**

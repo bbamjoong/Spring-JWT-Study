@@ -5,6 +5,7 @@ import static com.example.springjwt.enums.ReissueMessage.REFRESH_INVALID;
 import static com.example.springjwt.enums.ReissueMessage.REFRESH_NULL;
 
 import com.example.springjwt.service.ReissueService;
+import com.example.springjwt.util.CookieMethods;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class ReissueController {
 
     private final ReissueService reissueService;
+    private final CookieMethods cookieMethods;
 
     @PostMapping("/reissue")
     public ResponseEntity<?> reissue(HttpServletRequest request, HttpServletResponse response) {
@@ -39,6 +41,12 @@ public class ReissueController {
         String newAccess = reissueService.getNewAccess(refresh);
         response.setHeader("access", newAccess);
 
+        // 새로운 RefreshToken 발급
+        String newRefresh = reissueService.getNewRefresh(refresh);
+        response.addCookie(cookieMethods.createCookie("refresh", newRefresh));
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
 }

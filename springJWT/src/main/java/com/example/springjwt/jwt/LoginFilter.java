@@ -1,7 +1,7 @@
 package com.example.springjwt.jwt;
 
+import com.example.springjwt.util.CookieMethods;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Collection;
@@ -29,6 +29,8 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
 
     private final JWTUtil jwtUtil;
+
+    private final CookieMethods cookieMethods;
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
@@ -66,7 +68,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         //응답 설정
         response.setHeader("access", access);
-        response.addCookie(createCookie("refresh", refresh));
+        response.addCookie(cookieMethods.createCookie("refresh", refresh));
         response.setStatus(HttpStatus.OK.value());
     }
 
@@ -75,17 +77,5 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                               AuthenticationException failed) {
         response.setStatus(401);
-    }
-
-    // 쿠키를 만드는 메소드
-    private Cookie createCookie(String key, String value) {
-
-        Cookie cookie = new Cookie(key, value);
-        cookie.setMaxAge(24 * 60 * 60);
-        //cookie.setSecure(true); // https 통신을 할 경우 Secure 옵션을 적용 하면 된다.
-        //cookie.setPath("/"); // 쿠키의 범위 설정 가능
-        cookie.setHttpOnly(true); // XSS 공격 방어
-
-        return cookie;
     }
 }

@@ -58,4 +58,11 @@ public class ReissueService {
 
         return jwtUtil.createJwt("access", username, role, 600_000L);
     }
+
+    public String getNewRefresh(String refresh) {
+        String username = jwtUtil.getUsername(refresh);
+        String role = jwtUtil.getRole(refresh);
+
+        return jwtUtil.createJwt("refresh", username, role, 86_400_000L);
+    }
 }

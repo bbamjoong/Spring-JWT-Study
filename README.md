@@ -1,7 +1,9 @@
 # Spring-Security-Study
+> Chapter 1 ~ 13 : 단일 토큰<br>
+> Advanced-Chapter 2 ~ 9 : Access + Refresh 토큰<br><br>
+
+**브랜치별로 강의가 나뉘어 있습니다.**<br><br>
 아래의 강의를 참고했습니다.<br>
-간단한 구현을 목표로 하고 있기 때문에 Refresh Token에 관한 내용은 없으며 추후 추가할 예정입니다.<br>
-브랜치별로 강의가 나뉘어 있습니다.<br><br>
 [개발자 유미 - 스프링 시큐리티 JWT](https://www.youtube.com/playlist?list=PLJkjrxxiBSFCcOjy0AAVGNtIa08VLk1EJ)
 
 <br>
